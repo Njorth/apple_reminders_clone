@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="h-screen flex items-center justify-center">
+
+	<div class="card card-sm max-w-xs w-[96%] shadow-sm">
+		<form method="POST" action="{% url 'reminders:add_list' %}" class="card-body">
+			{% csrf_token %}
+			<h2 class="card-title justify-center">New List</h2>
+
+			<div class="bg-base-100 flex flex-col items-center p-3 rounded-box gap-2">
+				<!-- badge-primary badge-secondary badge-success badge-accent badge-error badge-info -->
+				<div class="badge badge-{{ form.colour.value }} badge-xl size-12 rounded-full shadow" id="colourBadge"></div>
+				<input type="text" name="name" maxlength="128" required="" id="id_name"
+					class="input input-sm text-center font-semibold" placeholder="List Name">
+			</div>
+
+			<div class="bg-base-100 flex justify-around p-3 rounded-box gap-2">
+				<!-- radio-primary radio-secondary radio-success radio-accent radio-error radio-info -->
+				{% for radio in form.colour %}
+				<input type="radio" name="colour" value="{{ radio.data.value }}" id="{{ radio.id_for_label }}" required
+					class="radio radio-{{ radio.data.value }}" {% if form.colour.value == radio.data.value %} checked {% endif %}
+					onclick="changeSelectedColourTo(this);">
+				{% endfor %}
+			</div>
+			<div class="card-actions justify-end">
+				<a class="btn btn-xs px-4" href="{% url 'reminders:index' %}">Cancel</a>
+				<button class="btn btn-xs btn-primary px-6">OK</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	function changeSelectedColourTo(radio) {
+		document.querySelector("#colourBadge")
+			.classList = ["badge badge-" + radio.value + " badge-xl size-12 rounded-full"]
+	}
+</script>
+{% endblock content %}
