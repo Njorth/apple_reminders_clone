@@ -9,8 +9,15 @@
 			<h2 class="card-title justify-center">New List</h2>
 
 			<div class="bg-base-100 flex flex-col items-center p-3 rounded-box gap-2">
-				<!-- badge-primary badge-secondary badge-success badge-accent badge-error badge-info -->
-				<div class="badge badge-{{ form.colour.value }} badge-xl size-12 rounded-full shadow" id="colourBadge"></div>
+				<!-- fill-primary fill-secondary fill-success fill-accent fill-error fill-info -->
+				<div id="icons">
+					{% for radio in form.icon %}
+					<div {% if not radio.data.selected %}class="hidden" {% endif %} id="{{ radio.data.value }}-icon">
+						{% include "includes/icons/lists/"|add:radio.data.value|add:".svg" with bgcolour=form.colour.value size=12 %}
+					</div>
+					{% endfor %}
+				</div>
+				<!-- </div> -->
 				<input type="text" name="name" maxlength="128" required="" id="id_name"
 					class="input input-sm text-center font-semibold" placeholder="List Name">
 			</div>
@@ -19,10 +26,24 @@
 				<!-- radio-primary radio-secondary radio-success radio-accent radio-error radio-info -->
 				{% for radio in form.colour %}
 				<input type="radio" name="colour" value="{{ radio.data.value }}" id="{{ radio.id_for_label }}" required
-					class="radio radio-{{ radio.data.value }}" {% if form.colour.value == radio.data.value %} checked {% endif %}
+					class="radio radio-{{ radio.data.value }}" {% if radio.data.selected %} checked {% endif %}
 					onclick="changeSelectedColourTo(this);">
 				{% endfor %}
 			</div>
+
+			<div class="bg-base-100 flex justify-around items-center p-3 rounded-box gap-2">
+				{% for radio in form.icon %}
+				<label class="cursor-pointer">
+					<input type="radio" name="icon" value="{{ radio.data.value }}" class="peer sr-only"
+						onclick="changeSelectedIconTo(this);" {% if radio.data.selected %}checked{% endif %}>
+					<div
+						class="flex items-center justify-center rounded-full border-2 border-base-100 peer-checked:border-base-content/75 transition">
+						{% include "includes/icons/lists/"|add:radio.data.value|add:".svg" with bgcolour="base-300/75" %}
+					</div>
+				</label>
+				{% endfor %}
+			</div>
+
 			<div class="card-actions justify-end">
 				<a class="btn btn-xs px-4" href="{% url 'reminders:index' %}">Cancel</a>
 				<button class="btn btn-xs btn-primary px-6">OK</button>
@@ -32,8 +53,22 @@
 </div>
 <script>
 	function changeSelectedColourTo(radio) {
-		document.querySelector("#colourBadge")
-			.classList = ["badge badge-" + radio.value + " badge-xl size-12 rounded-full"]
+		document.querySelector("#icons")
+			.querySelectorAll(".icon-bg")
+			.forEach(el => {
+				el.classList = ["icon-bg fill-" + radio.value]
+			});
+	}
+
+	function changeSelectedIconTo(radio) {
+		document.querySelector("#icons")
+			.querySelectorAll("div")
+			.forEach(el => {
+				if (el.id == radio.value + "-icon")
+					el.classList = [""]
+				else
+					el.classList = ["hidden"]
+			});
 	}
 </script>
 {% endblock content %}

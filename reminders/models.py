@@ -7,6 +7,11 @@ if TYPE_CHECKING:
 
 
 class List(models.Model):
+
+
+    class Meta:
+        ordering = ["name"]
+
     name = models.CharField(max_length=128)
 
     class Colours(models.TextChoices):
@@ -15,8 +20,19 @@ class List(models.Model):
         SUCCESS = "success"
         INFO = "info"
 
+
+    class Icons(models.TextChoices):
+        LIST = "list"
+        BOOKMARK = "bookmark"
+        KEY = "key"
+        PRESENT = "present"
+
     colour = models.CharField(
         max_length=12, choices=Colours.choices, default=Colours.PRIMARY
+    )
+
+    icon = models.CharField(
+        max_length=24, choices=Icons.choices, default=Icons.LIST
     )
 
     if TYPE_CHECKING:
