@@ -3,7 +3,7 @@
 {% block content %}
 
 <div
-	class="backdrop-blur-lg z-1 fixed top-0 left-1/2 -translate-x-1/2 w-full min-w-[300px] max-w-sm p-2 flex justify-end">
+	class="backdrop-blur-lg z-1 fixed top-0 left-1/2 -translate-x-1/2 w-full min-w-[300px] max-w-md p-2 flex justify-end">
 	{% if is_editing %}
 
 	<a class="text-primary font-semibold" href="{% url 'reminders:index' %}">Done</a>
@@ -34,7 +34,7 @@
 
 </div>
 
-<section class="max-w-sm mx-auto p-2 mt-10 mb-10">
+<section class="max-w-md min-h-96 mx-auto p-2 mt-10 mb-10">
 
 	<h1 class="font-semibold text-lg mb-1 px-2">My Lists</h1>
 
@@ -49,7 +49,7 @@
 				class="list-row items-center p-2 w-full">
 				<div class="flex items-center gap-2">
 					{% if is_editing %}
-					<button type="button" class="trigger cursor-pointer">
+					<button type="button" tabindex="0" class="trigger cursor-pointer">
 						{% include "includes/icons/delete.svg" %}
 					</button>
 					</form>
@@ -78,7 +78,7 @@
 			<form method="POST" action="{% url 'reminders:delete_list' pk=list.pk %}" id="delete-{{ list.pk }}-btn"
 				class="bg-error flex items-center px-1 absolute top-0 bottom-0 -right-1 translate-x-full text-xs">
 				{% csrf_token %}
-				<button type="submit" class="trigger w-full h-full cursor-pointer">Delete</button>
+				<button type="submit" tabindex="0" class="trigger w-full h-full cursor-pointer">Delete</button>
 			</form>
 			{% endif %}
 		</li>
@@ -87,7 +87,7 @@
 </section>
 
 <div
-	class="backdrop-blur-lg fixed bottom-0 left-1/2 -translate-x-1/2 w-full min-w-[300px] max-w-sm flex justify-between p-2">
+	class="backdrop-blur-lg fixed bottom-0 left-1/2 -translate-x-1/2 w-full min-w-[300px] max-w-md flex justify-between p-2">
 	<a class="text-primary font-semibold flex items-center gap-1">
 
 
@@ -107,4 +107,21 @@
 	</a>
 	<a class="text-primary" href="{% url 'reminders:add_list' %}">Add List</a>
 </div>
+
+<!-- <script> -->
+<!-- 	const triggers = document.querySelectorAll('.trigger'); -->
+<!-- 	//document.querySelector("#list-21-row") -->
+<!-- 	//	.style.transform = "translateX(-49px)"; -->
+<!---->
+<!---->
+<!-- 	triggers.forEach(trigger => { -->
+<!-- 		const parent = trigger.closest('li'); // finds closest parent -->
+<!-- 		console.log(parent) -->
+<!---->
+<!-- 		if (!parent) return; -->
+<!---->
+<!-- 		trigger.addEventListener('focus', () => {parent.classList.add('bg-blue-100');}); -->
+<!-- 		trigger.addEventListener('blur', () => parent.classList.remove('bg-blue-100')); -->
+<!-- 	}); -->
+<!-- </script> -->
 {% endblock content %}
