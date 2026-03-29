@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="h-screen flex items-center justify-center">
 
 	<div class="card card-sm max-w-xs w-[96%] shadow-sm">
@@ -9,11 +10,13 @@
 			<h2 class="card-title justify-center">New List</h2>
 
 			<div class="bg-base-100 flex flex-col items-center p-3 rounded-box gap-2">
-				<!-- fill-primary fill-secondary fill-success fill-accent fill-error fill-info -->
+				<!-- fill-primary fill-secondary fill-success fill-accent fill-error fill-info w-12 h-12 -->
+				<!-- stroke-primary-content stroke-secondary-content stroke-success-content stroke-accent-content stroke-error-content stroke-info-content -->
+				<!-- fill-primary-content fill-secondary-content fill-success-content fill-accent-content fill-error-content fill-info-content -->
 				<div id="icons">
 					{% for radio in form.icon %}
 					<div {% if not radio.data.selected %}class="hidden" {% endif %} id="{{ radio.data.value }}-icon">
-						{% include "includes/icons/lists/"|add:radio.data.value|add:".svg" with bgcolour=form.colour.value size=12 %}
+						{% include "includes/icons/lists/"|add:radio.data.value|add:".svg" with bgcolour=form.colour.value strokecolour=form.colour.value size=12 %}
 					</div>
 					{% endfor %}
 				</div>
@@ -32,6 +35,7 @@
 			</div>
 
 			<div class="bg-base-100 flex justify-around items-center p-3 rounded-box gap-2">
+				<!-- w-8 h-8 fill-base-content fill-base-300/75 -->
 				{% for radio in form.icon %}
 				<label class="cursor-pointer">
 					<input type="radio" name="icon" value="{{ radio.data.value }}" class="peer sr-only"
@@ -57,6 +61,12 @@
 			.querySelectorAll(".icon-bg")
 			.forEach(el => {
 				el.classList = ["icon-bg fill-" + radio.value]
+			});
+
+		document.querySelector("#icons")
+			.querySelectorAll(".icon-fg")
+			.forEach(el => {
+				el.classList = ["icon-fg stroke-" + radio.value + "-content"]
 			});
 	}
 
